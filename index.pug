@@ -1,0 +1,64 @@
+doctype html
+html(lang='en')
+head
+  title Idle Ducky
+  meta(charset='UTF-8')
+  meta(name="viewport", content="width=device-width, initial-scale=1.0")
+  meta(http-equiv="X-UA-Compatible", content="ie=edge")
+  // Import Google Icon Font
+  link(rel="stylesheet", href="https://fonts.googleapis.com/icon?family=Material+Icons")
+  // Import Materialize.css
+  link(
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css"
+    integrity="sha256-tKn8A2U9uuN5rPr3gh4A9FYMJkarrzLVyks7aS/ZfBU="
+    crossorigin="anonymous"
+  )
+  // Import Custom CSS
+  link(rel="stylesheet", href="css/style.css", type="text/css")
+body
+  header
+    .container
+      h1 Welcome to Idle Ducky!
+  main
+    .container
+      .row
+        section#clicker-area.col.s6.center-align
+          p#duckpower-counter Duck Power:
+            |
+            |
+            <span>0</span>
+          a(class="waves-effect waves-light btn-large") Generate Duck Power
+        section#duck-pen.col.s6
+          ul.collection.with-header
+            li.collection-header
+              h4 Duck Pens
+              span Used Pens: (
+                span#duckpen-count 0
+                | /
+                span#duckpen-max 4
+                | )
+            li.collection-item Resource 1
+              .progress
+                .determinate(style="width: 25%")
+            li.collection-item Resource 2
+              .progress
+                .determinate(style="width: 50%")
+            li.collection-item Resource 3
+              .progress
+                .determinate(style="width: 75%")
+            li.collection-item Resource 4
+              .progress
+                .determinate(style="width: 100%")
+  footer
+    p#footer-copyright
+      | &copy;
+      a(href="https://github.com/delster/") David Elster
+  // Import Materialize.js
+  script(
+    src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"
+    integrity="sha256-W9FML0cw6SfScX3k0Z8iTWhaZGSEUrR3R3KWfRA6lnI="
+    crossorigin="anonymous"
+  )
+  // Import Game.js
+  script(type="text/javascript" src="js/idle-ducky.js")
