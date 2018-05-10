@@ -28,16 +28,17 @@ body
             |
             |
             <span>0</span>
-          a(class="waves-effect waves-light btn-large") Generate Duck Power
-        section#duck-pen.col.s6
+          a#duckpower-generator.waves-effect.waves-light.btn-large Generate Duck Power
+        section#duckpen.col.s6
           ul.collection.with-header
             li.collection-header
               h4 Duck Pens
               span Used Pens: (
-                span#duckpen-count 0
+                span#duckpen__count 0
                 | /
-                span#duckpen-max 4
+                span#duckpen__max 4
                 | )
+
             li.collection-item Resource 1
               .progress
                 .determinate(style="width: 25%")
@@ -60,5 +61,5 @@ body
     integrity="sha256-W9FML0cw6SfScX3k0Z8iTWhaZGSEUrR3R3KWfRA6lnI="
     crossorigin="anonymous"
   )
-  // Import Game.js
-  script(type="text/javascript" src="js/idle-ducky.js")
+  // Import Game JS
+  script(type="module" src="js/main.js")
