@@ -57,7 +57,7 @@ export default class {
         this.color = "amber";
     } // switch(tier)
     this.el = document.createElement("li");
-    this.el.classList.add(this.color, "collection-item");
+    this.el.classList.add("ducky", this.color, "collection-item");
     this.el.innerHTML = `This is a Tier ${this.tier} Duck.
                          It generates DP at a rate of ${this.rate}.`;
   } // constructor
