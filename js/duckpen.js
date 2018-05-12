@@ -14,6 +14,14 @@ export default class {
     this.ducks = [];
   }
 
+  // Adds a duck to the Duck Pen. Default tier: 1
+  addDuck(tier = 1) {
+    let newDuck = new Duck(tier);
+    this.ducks.push(newDuck);
+    this.count++;
+    this.updateUI();
+  }
+
   // Returns the total rate of the ducks.
   generate() {
     return this.ducks.reduce((t, d) => t + d.rate, 0);
@@ -22,14 +30,6 @@ export default class {
   // Returns true if the Duck Pen is not full.
   hasRoom() {
     return this.count < this.max;
-  }
-
-  // Adds a duck to the Duck Pen. Default tier: 1
-  addDuck(tier = 1) {
-    let newDuck = new Duck(tier);
-    this.ducks.push(newDuck);
-    this.count++;
-    this.updateUI();
   }
 
   // Refresh the UI (ul+li's).

@@ -10,26 +10,25 @@ export default class {
     // Variables
     this.dp = 0;
     this.duckPrice = 10;
-    this.loopInterval = 100;
+    this.loopInterval = 10;
 
     // Instantiate our Duck Pen.
     this.duckPen = new DuckPen();
-
-    // Click Event Listener on "Buy Duck" Button.
-    this.duckBuyButton.addEventListener("click", () => {
-      // If we can't afford it, or there's no room, do nothing.
-      if (this.dp < this.duckPrice || !this.duckPen.hasRoom())
-        return;
-
-      // If we can afford it, and there's room, do it.
-      this.buyDuck();
-    });
 
     // Click Event Listener on Generator Button.
     this.dpClicker.addEventListener("click", () => {
       ++this.dp;
     });
 
+    // Click Event Listener on "Buy Duck" Button.
+    this.duckBuyButton.addEventListener("click", () => {
+      // If we can't afford it, or there's no room, do nothing.
+      if (this.dp < this.duckPrice || !this.duckPen.hasRoom()) return;
+      // If we can afford it, and there's room, do it.
+      this.buyDuck();
+    });
+
+    // The main loop of the game.
     setInterval(() => {
       this.doGameLoop();
     }, this.loopInterval);
@@ -46,11 +45,8 @@ export default class {
   // The meat of the game, our timer that ticks production, etc.
   doGameLoop() {
     // Update UI.
-    this.dpCounter.textContent = this.dp;
-    // this.duckPenCountTag.textContent = this.duckPenCount;
-    // this.duckPenMaxTag.textContent = this.duckPenMax;
-
+    this.dpCounter.textContent = this.dp.toFixed(2);
     // Generate Duck Power from Duck Pen.
-    this.duckPen.generate();
+    this.dp += this.duckPen.generate();
   }
 }
