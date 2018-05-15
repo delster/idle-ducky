@@ -4,7 +4,7 @@ export default class {
   constructor() {
     // Cache DOM Elements.
     this.tag = document.querySelector(".duckpen");
-    this.headerTag = document.querySelector(".duckpen__header")
+    this.headerTag = document.querySelector(".duckpen__header");
     this.countTag = document.querySelector(".duckpen__count");
     this.maxTag = document.querySelector(".duckpen__max");
 
@@ -16,9 +16,12 @@ export default class {
 
   // Adds a duck to the Duck Pen. Default tier: 1
   addDuck(tier = 1) {
+    // Create Duck.
     let newDuck = new Duck(tier);
+    // Add to Ducks array.
     this.ducks.push(newDuck);
     this.count++;
+    // Inform the front-end.
     this.updateUI();
   }
 
@@ -39,7 +42,9 @@ export default class {
     this.maxTag.textContent = this.max;
 
     // Remove current list items from the Duck Pen.
-    this.tag.querySelectorAll(".collection-item").forEach(e => e.parentNode.removeChild(e));
+    this.tag
+      .querySelectorAll(".collection-item")
+      .forEach(e => e.parentNode.removeChild(e));
 
     // Create a DocFrag to contain Duck Elements (to prevent multiple repaints).
     let frag = document.createDocumentFragment();
@@ -49,5 +54,4 @@ export default class {
 
     this.tag.appendChild(frag);
   }
-
 }
