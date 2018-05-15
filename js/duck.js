@@ -85,34 +85,44 @@ export default class {
   }
   // This fires when the user starts to drag a Ducky.
   // Fires on: Dragged
-  dragstart() {
+  dragstart(e) {
     // TODO: Initialize drag state here.
-    this.classList.add("held");
-    setTimeout(() => (this.classList.add("hide"), 0));
+    setTimeout(() => {
+      this.classList.add("hide");
+      this.classList.add("held");
+    }, 0);
+    e.dataTransfer.setData("text/plain", this.tier);
+    e.dropEffect = "move";
   }
+
   // This fires when a draggable enters into a potential drop target.
   // Fires on: Target
   dragenter(e) {
     e.preventDefault();
   }
+
   // This fires when a draggable is over a potential drop target.
   // Fires on: Target
   dragover(e) {
     e.preventDefault();
+    e.dataTransfer.dropEffect = "copy";
   }
+
   // This fires when a draggable exits from a potential drop target.
   // Fires on Target
   dragleave() {
     // TODO: Cleanup drag feedback on the target.
   }
+
   // This fires when a Duck is dropped onto another.
   // Fires on: Target
-  drop() {
-  }
+  drop() {}
+
   // This fires when the user stops dragging a Ducky (regardless if it is "dropped").
   // Fires on: Dragged
   dragend() {
     // TODO: Cleanup drag state here.
+    this.classList.remove("held");
     this.classList.remove("hide");
   }
 } // class
