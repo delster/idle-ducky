@@ -1,0 +1,3 @@
+/* Drag-n-Drop for Duckies. */
+.ducky.held { opacity: .6 }
+.ducky.over { border: 2px dashed #444 }

@@ -9,12 +9,12 @@ export default class {
       case 2:
         this.tier = 2;
         this.rate = 0.0015;
-        this.color = "pink";
+        this.color = "red";
         break;
       case 3:
         this.tier = 3;
         this.rate = 0.00225;
-        this.color = "purple";
+        this.color = "green";
         break;
       case 4:
         this.tier = 4;
@@ -24,7 +24,7 @@ export default class {
       case 5:
         this.tier = 5;
         this.rate = 0.0050625;
-        this.color = "indigo";
+        this.color = "lime";
         break;
       case 6:
         this.tier = 6;
@@ -39,17 +39,17 @@ export default class {
       case 8:
         this.tier = 8;
         this.rate = 0.0170859375;
-        this.color = "red";
+        this.color = "pink";
         break;
       case 9:
         this.tier = 9;
         this.rate = 0.02562890625;
-        this.color = "green";
+        this.color = "purple";
         break;
       case 10:
         this.tier = 10;
         this.rate = 0.038443359375;
-        this.color = "lime";
+        this.color = "indigo";
         break;
       default:
         this.tier = 0;
@@ -88,17 +88,15 @@ export default class {
   dragstart(e) {
     // TODO: Initialize drag state here.
     setTimeout(() => {
-      this.classList.add("hide");
       this.classList.add("held");
     }, 0);
     e.dataTransfer.setData("text/plain", this.tier);
-    e.dropEffect = "move";
   }
 
   // This fires when a draggable enters into a potential drop target.
   // Fires on: Target
   dragenter(e) {
-    e.preventDefault();
+    this.classList.add("over");
   }
 
   // This fires when a draggable is over a potential drop target.
@@ -106,23 +104,33 @@ export default class {
   dragover(e) {
     e.preventDefault();
     e.dataTransfer.dropEffect = "copy";
+    return false;
   }
 
   // This fires when a draggable exits from a potential drop target.
   // Fires on Target
-  dragleave() {
+  dragleave(e) {
     // TODO: Cleanup drag feedback on the target.
+    this.classList.remove("over");
   }
 
   // This fires when a Duck is dropped onto another.
   // Fires on: Target
-  drop() {}
+  drop(e) {
+    e.stopPropagation();
+    return false;
+  }
 
   // This fires when the user stops dragging a Ducky (regardless if it is "dropped").
   // Fires on: Dragged
   dragend() {
     // TODO: Cleanup drag state here.
     this.classList.remove("held");
-    this.classList.remove("hide");
+
+    // Use that dirty "NodeList as Array" hack. 😐
+    let ducks = document.querySelectorAll('.ducky');
+    [].forEach.call(ducks,  duck => {
+      duck.classList.remove("over");
+    });
   }
 } // class
