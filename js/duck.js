@@ -1,5 +1,5 @@
 export default class {
-  constructor(tier) {
+  constructor(parent = null, tier = 0) {
     switch (tier) {
       case 1:
         this.tier = 1;
@@ -56,19 +56,27 @@ export default class {
         this.rate = 0;
         this.color = "amber";
     } // switch(tier)
+
     // Create DOM Element.
     this.el = document.createElement("li");
     this.el.setAttribute("draggable", true);
     this.el.classList.add("ducky", this.color, "collection-item");
     this.el.innerHTML = `This is a Tier ${this.tier} Duck.
                          It generates DP at a rate of ${this.rate}.`;
+    this.el.object = this;
 
-    // Add drag-n-drop listeners.
-    this.initDragDrop();
+    // Create reference to parent (DuckList).
+    this.parent = parent;
+
+    // If a parent was passed, allow DnD.
+    if (this.parent != null) {
+      // Add drag-n-drop listeners.
+      this.initDragDrop();
+    }
   } // constructor
 
   // Drag-n-Drop Handlers
-  initDragDrop(el) {
+  initDragDrop() {
     // General Flow: http://apress.jensimmons.com/v5/pro-html5-programming/images/ch9/fig9-3.jpg
     // dragstart ->
     //   dragleave (on dragged) ->
@@ -90,7 +98,11 @@ export default class {
     setTimeout(() => {
       this.classList.add("held");
     }, 0);
-    e.dataTransfer.setData("text/plain", this.tier);
+
+    // Set this as the dragged element in parent.
+    if (this.object.parent != null) {
+      this.object.parent.draggedDuck = this.object;
+    }
   }
 
   // This fires when a draggable enters into a potential drop target.
@@ -118,6 +130,13 @@ export default class {
   // Fires on: Target
   drop(e) {
     e.stopPropagation();
+
+    // Let DuckPen handle the drop.
+    if (this.object.parent != null) {
+      this.object.parent.dropTargetDuck = this.object;
+      this.object.parent.dropDuck();
+    }
+
     return false;
   }
 
@@ -132,5 +151,11 @@ export default class {
     [].forEach.call(ducks, duck => {
       duck.classList.remove("over");
     });
+
+    // Clear references to drag Ducks in Duck Pen.
+    if (this.parent != null) {
+      this.parent.draggedDuck = null;
+      this.parent.dropTargetDuck = null;
+    }
   }
 } // class

@@ -12,12 +12,16 @@ export default class {
     this.count = 0;
     this.max = 4;
     this.ducks = [];
+
+    // Drag-n-Drop References.
+    this.draggedDuck = null;
+    this.dropTargetDuck = null;
   }
 
   // Adds a duck to the Duck Pen. Default tier: 1
   addDuck(tier = 1) {
     // Create Duck.
-    let newDuck = new Duck(tier);
+    let newDuck = new Duck(this, tier);
     // Add to Ducks array.
     this.ducks.push(newDuck);
     this.count++;
@@ -33,6 +37,17 @@ export default class {
   // Returns true if the Duck Pen is not full.
   hasRoom() {
     return this.count < this.max;
+  }
+
+  // Handles Ducks dropping on each other.
+  // Assumes Ducks self-assign references prior to the call.
+  dropDuck() {
+    // Check if the tiers match:
+    if (this.draggedDuck.tier != this.dropTargetDuck.tier) return;
+    // Check if they're the same:
+    if (this.draggedDuck == this.dropTargetDuck) return;
+    console.log(`Dragged Index: ${this.ducks.indexOf(this.draggedDuck)}`);
+    console.log(`Dropped Index: ${this.ducks.indexOf(this.dropTargetDuck)}`);
   }
 
   // Refresh the UI (ul+li's).
