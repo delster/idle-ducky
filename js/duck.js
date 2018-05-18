@@ -128,8 +128,8 @@ export default class {
     this.classList.remove("held");
 
     // Use that dirty "NodeList as Array" hack. 😐
-    let ducks = document.querySelectorAll('.ducky');
-    [].forEach.call(ducks,  duck => {
+    let ducks = document.querySelectorAll(".ducky");
+    [].forEach.call(ducks, duck => {
       duck.classList.remove("over");
     });
   }
