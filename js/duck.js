@@ -1,61 +1,7 @@
 export default class {
   constructor(parent = null, tier = 0) {
-    switch (tier) {
-      case 1:
-        this.tier = 1;
-        this.rate = 0.001;
-        this.color = "cyan";
-        break;
-      case 2:
-        this.tier = 2;
-        this.rate = 0.0015;
-        this.color = "red";
-        break;
-      case 3:
-        this.tier = 3;
-        this.rate = 0.00225;
-        this.color = "green";
-        break;
-      case 4:
-        this.tier = 4;
-        this.rate = 0.003375;
-        this.color = "deep-purple";
-        break;
-      case 5:
-        this.tier = 5;
-        this.rate = 0.0050625;
-        this.color = "lime";
-        break;
-      case 6:
-        this.tier = 6;
-        this.rate = 0.00759375;
-        this.color = "blue";
-        break;
-      case 7:
-        this.tier = 7;
-        this.rate = 0.011390625;
-        this.color = "light-blue";
-        break;
-      case 8:
-        this.tier = 8;
-        this.rate = 0.0170859375;
-        this.color = "pink";
-        break;
-      case 9:
-        this.tier = 9;
-        this.rate = 0.02562890625;
-        this.color = "purple";
-        break;
-      case 10:
-        this.tier = 10;
-        this.rate = 0.038443359375;
-        this.color = "indigo";
-        break;
-      default:
-        this.tier = 0;
-        this.rate = 0;
-        this.color = "amber";
-    } // switch(tier)
+    // Read from the fake enum:
+    this.setTier(tier);
 
     // Create DOM Element.
     this.el = document.createElement("li");
@@ -74,6 +20,28 @@ export default class {
       this.initDragDrop();
     }
   } // constructor
+
+  // Set the properties to values based on a given tier.
+  setTier(t) {
+    // Pseudo-Enum
+    const TIERS = Object.freeze({
+      0: { tier: 0, color: "amber", rate: 0 },
+      1: { tier: 1, color: "cyan", rate: 0.001 },
+      2: { tier: 2, color: "red", rate: 0.0015 },
+      3: { tier: 3, color: "green", rate: 0.00225 },
+      4: { tier: 4, color: "deep-purple", rate: 0.003375 },
+      5: { tier: 5, color: "lime", rate: 0.0050625 },
+      6: { tier: 6, color: "blue", rate: 0.00759375 },
+      7: { tier: 7, color: "light-blue", rate: 0.011390625 },
+      8: { tier: 8, color: "pink", rate: 0.0170859375 },
+      9: { tier: 9, color: "purple", rate: 0.02562890625 },
+      10: { tier: 10, color: "indigo", rate: 0.038443359375 },
+    });
+
+    // Read Enum for given tier, assign those values to this instance.
+    let vals = TIERS[t];
+    Object.assign(this, vals);
+  }
 
   // Drag-n-Drop Handlers
   initDragDrop() {
