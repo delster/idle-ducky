@@ -1,3 +1,33 @@
+/* Material Design Bugfix */
+.ducky { position: relative }
+
 /* Drag-n-Drop for Duckies. */
 .ducky.held { opacity: .6 }
-.ducky.over { border: 2px dashed #444 }
+.ducky::before {
+  /* Center Text */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Text Styling */
+  color: white;
+  font-size: 2.5em;
+  /* Overlay */
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(150, 0, 0);
+  transition: .3s all ease-in-out;
+
+  opacity: 0;
+}
+.ducky.can-afford:not(.held)::before {
+  content: "-" attr(data-cost) " DP";
+  opacity: 1;
+}
+.ducky.cant-afford:not(.held)::before {
+  content: 'close';
+  font-family: "Material Icons";
+  opacity: 1;
+}

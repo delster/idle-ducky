@@ -13,7 +13,7 @@ export default class {
     this.loopInterval = 10;
 
     // Instantiate our Duck Pen.
-    this.duckPen = new DuckPen();
+    this.duckPen = new DuckPen(this);
 
     // Click Event Listener on Generator Button.
     this.dpClicker.addEventListener("click", () => {
@@ -40,7 +40,7 @@ export default class {
     this.dp -= this.duckPrice;
     // Let the Duck Pen handle adding the duck.
     this.duckPen.addDuck();
-  }
+  } // buyDuck()
 
   // The meat of the game, our timer that ticks production, etc.
   doGameLoop() {
@@ -48,5 +48,6 @@ export default class {
     this.dpCounter.textContent = this.dp.toFixed(2);
     // Generate Duck Power from Duck Pen.
     this.dp += this.duckPen.generate();
-  }
-}
+  } // doGameLoop()
+
+} // class

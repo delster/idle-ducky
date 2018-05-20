@@ -1,5 +1,5 @@
 export default class {
-  constructor(parent = null, tier = 0) {
+  constructor(duckpen = null, tier = 0) {
     // Create DOM Element.
     this.el = document.createElement("li");
     this.el.setAttribute("draggable", true);
@@ -8,11 +8,11 @@ export default class {
     // Set the data for the object.
     this.setTier(tier);
 
-    // Create reference to parent (DuckList).
-    this.parent = parent;
+    // Create reference to duckpen (DuckList).
+    this.duckpen = duckpen;
 
-    // If a parent was passed, allow DnD.
-    if (this.parent != null) {
+    // If a duckpen was passed, allow DnD.
+    if (this.duckpen != null) {
       // Add drag-n-drop listeners.
       this.initDragDrop();
     }
@@ -31,7 +31,7 @@ export default class {
       // Case >1: (2 * LastTierCost)^1+(x/100).
       return Math.pow(2 * this.calcCombineCost(t - 1), 1 + t / 100);
     }
-  }
+  } // calcCombineCost()
 
   // Set the properties to values based on a given tier.
   setTier(t) {
@@ -59,7 +59,7 @@ export default class {
 
     // Update the DOM Element of the changes.
     this.updateEl();
-  }
+  } // setTier()
 
   // Updates the DOM Element's contents. Maintains events, object reference, etc.
   updateEl() {
@@ -77,7 +77,10 @@ export default class {
     // Set text.
     this.el.innerHTML = `This is a Tier ${this.tier} Duck.
                          It generates DP at a rate of ${this.rate}.`;
-  }
+
+    // Set Data attribute for pseudo-element (overlay) text.
+    this.el.dataset.cost = this.combineCost.toFixed(2);
+  } // updateEl()
 
   // Drag-n-Drop Handlers
   initDragDrop() {
@@ -94,7 +97,8 @@ export default class {
     this.el.addEventListener("dragenter", this.dragenter);
     this.el.addEventListener("dragleave", this.dragleave);
     this.el.addEventListener("drop", this.drop);
-  }
+  } // initDragDrop()
+
   // This fires when the user starts to drag a Ducky.
   // Fires on: Dragged
   dragstart(e) {
@@ -103,17 +107,18 @@ export default class {
       this.classList.add("held");
     }, 0);
 
-    // Set this as the dragged element in parent.
-    if (this.object.parent != null) {
-      this.object.parent.draggedDuck = this.object;
+    // Set this as the dragged element in Duck Pen.
+    if (this.object.duckpen != null) {
+      this.object.duckpen.draggedDuck = this.object;
     }
-  }
+  } // dragstart()
 
   // This fires when a draggable enters into a potential drop target.
   // Fires on: Target
   dragenter(e) {
-    this.classList.add("over");
-  }
+    // Display an overlay based on whether combining is affordable.
+    this.classList.add( (this.object.duckpen.game.dp >= this.dataset.cost) ? "can-afford" : "cant-afford");
+  } // dragenter()
 
   // This fires when a draggable is over a potential drop target.
   // Fires on: Target
@@ -121,45 +126,45 @@ export default class {
     e.preventDefault();
     e.dataTransfer.dropEffect = "copy";
     return false;
-  }
+  } // dragover()
 
   // This fires when a draggable exits from a potential drop target.
   // Fires on Target
   dragleave(e) {
     // TODO: Cleanup drag feedback on the target.
-    this.classList.remove("over");
-  }
+    this.classList.remove("can-afford");
+    this.classList.remove("cant-afford");
+  } // dragleave()
 
   // This fires when a Duck is dropped onto another.
   // Fires on: Target
   drop(e) {
     e.stopPropagation();
 
+    // Cleanup drag feedback on drop target.
+    this.classList.remove("can-afford");
+    this.classList.remove("cant-afford");
+
     // Let DuckPen handle the drop.
-    if (this.object.parent != null) {
-      this.object.parent.dropTargetDuck = this.object;
-      this.object.parent.dropDuck();
+    if (this.object.duckpen != null) {
+      this.object.duckpen.dropTargetDuck = this.object;
+      this.object.duckpen.dropDuck();
     }
 
     return false;
-  }
+  } // drop()
 
   // This fires when the user stops dragging a Ducky (regardless if it is "dropped").
   // Fires on: Dragged
   dragend() {
-    // TODO: Cleanup drag state here.
+    // Cleanup drag state on dragged.
     this.classList.remove("held");
 
-    // Use that dirty "NodeList as Array" hack. 😐
-    let ducks = document.querySelectorAll(".ducky");
-    [].forEach.call(ducks, duck => {
-      duck.classList.remove("over");
-    });
-
     // Clear references to drag Ducks in Duck Pen.
-    if (this.parent != null) {
-      this.parent.draggedDuck = null;
-      this.parent.dropTargetDuck = null;
+    if (this.duckpen != null) {
+      this.duckpen.draggedDuck = null;
+      this.duckpen.dropTargetDuck = null;
     }
-  }
+  } // dragend()
+
 } // class

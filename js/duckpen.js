@@ -1,7 +1,7 @@
 import Duck from "./duck.js";
 
 export default class {
-  constructor() {
+  constructor(game = null) {
     // Cache DOM Elements.
     this.tag = document.querySelector(".duckpen");
     this.headerTag = document.querySelector(".duckpen__header");
@@ -12,10 +12,13 @@ export default class {
     this.max = 4;
     this.ducks = [];
 
+    // Reference to Game.
+    this.game = game;
+
     // Drag-n-Drop References.
     this.draggedDuck = null;
     this.dropTargetDuck = null;
-  }
+  } // constructor
 
   // Adds a duck to the Duck Pen. Default tier: 1
   addDuck(tier = 1) {
@@ -27,17 +30,17 @@ export default class {
 
     // Inform the front-end.
     this.updateUI();
-  }
+  } // addDuck()
 
   // Returns the total rate of the ducks.
   generate() {
     return this.ducks.reduce((t, d) => t + d.rate, 0);
-  }
+  } // generate()
 
   // Returns true if the Duck Pen is not full.
   hasRoom() {
     return this.ducks.length < this.max;
-  }
+  } // hasRoom()
 
   // Handles Ducks dropping on each other.
   // Assumes Ducks self-assign references prior to the call.
@@ -46,18 +49,19 @@ export default class {
     if (this.draggedDuck.tier != this.dropTargetDuck.tier) return;
     // Check if they're the same:
     if (this.draggedDuck == this.dropTargetDuck) return;
+    // Check if affordable:
+    if ( this.dropTargetDuck.combineCost > this.game.dp ) return;
 
-    // TODO: Create prices, check if it's affordable, etc.
-
+    // We passed basic validation, charge the combination cost.
+    this.game.dp -= this.dropTargetDuck.combineCost;
     // Upgrade drop target.
     this.dropTargetDuck.setTier(++this.dropTargetDuck.tier);
-
     // Delete dragged duck.
     this.ducks.splice(this.ducks.indexOf(this.draggedDuck), 1);
 
     // Inform the front-end.
     this.updateUI();
-  }
+  } // dropDuck()
 
   // Refresh the UI (ul+li's).
   updateUI() {
@@ -77,5 +81,6 @@ export default class {
     });
 
     this.tag.appendChild(frag);
-  }
-}
+  } // updateUI()
+
+} // class
