@@ -9,7 +9,6 @@ export default class {
     this.maxTag = document.querySelector(".duckpen__max");
 
     // Variables
-    this.count = 0;
     this.max = 4;
     this.ducks = [];
 
@@ -22,9 +21,10 @@ export default class {
   addDuck(tier = 1) {
     // Create Duck.
     let newDuck = new Duck(this, tier);
+
     // Add to Ducks array.
     this.ducks.push(newDuck);
-    this.count++;
+
     // Inform the front-end.
     this.updateUI();
   }
@@ -36,7 +36,7 @@ export default class {
 
   // Returns true if the Duck Pen is not full.
   hasRoom() {
-    return this.count < this.max;
+    return this.ducks.length < this.max;
   }
 
   // Handles Ducks dropping on each other.
@@ -46,14 +46,24 @@ export default class {
     if (this.draggedDuck.tier != this.dropTargetDuck.tier) return;
     // Check if they're the same:
     if (this.draggedDuck == this.dropTargetDuck) return;
-    console.log(`Dragged Index: ${this.ducks.indexOf(this.draggedDuck)}`);
-    console.log(`Dropped Index: ${this.ducks.indexOf(this.dropTargetDuck)}`);
+
+    // TODO: Create prices, check if it's affordable, etc.
+
+    // Upgrade drop target.
+    this.dropTargetDuck.setTier(++this.dropTargetDuck.tier);
+    console.log(this.dropTargetDuck.tier);
+
+    // Delete dragged duck.
+    this.ducks.splice(this.ducks.indexOf(this.draggedDuck), 1);
+
+    // Inform the front-end.
+    this.updateUI();
   }
 
   // Refresh the UI (ul+li's).
   updateUI() {
     // TODO: Test the ul stuff for performance issues.
-    this.countTag.textContent = this.count;
+    this.countTag.textContent = this.ducks.length;
     this.maxTag.textContent = this.max;
 
     // Remove current list items from the Duck Pen.

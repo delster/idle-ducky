@@ -1,15 +1,12 @@
 export default class {
   constructor(parent = null, tier = 0) {
-    // Read from the fake enum:
-    this.setTier(tier);
-
     // Create DOM Element.
     this.el = document.createElement("li");
     this.el.setAttribute("draggable", true);
-    this.el.classList.add("ducky", this.color, "collection-item");
-    this.el.innerHTML = `This is a Tier ${this.tier} Duck.
-                         It generates DP at a rate of ${this.rate}.`;
     this.el.object = this;
+
+    // Set the data for the object.
+    this.setTier(tier);
 
     // Create reference to parent (DuckList).
     this.parent = parent;
@@ -35,12 +32,33 @@ export default class {
       7: { tier: 7, color: "light-blue", rate: 0.011390625 },
       8: { tier: 8, color: "pink", rate: 0.0170859375 },
       9: { tier: 9, color: "purple", rate: 0.02562890625 },
-      10: { tier: 10, color: "indigo", rate: 0.038443359375 },
+      10: { tier: 10, color: "indigo", rate: 0.038443359375 }
     });
 
     // Read Enum for given tier, assign those values to this instance.
     let vals = TIERS[t];
     Object.assign(this, vals);
+
+    // Update the DOM Element of the changes.
+    this.updateEl();
+  }
+
+  // Updates the DOM Element's contents. Maintains events, object reference, etc.
+  updateEl() {
+    // Store once, use throughout.
+    let cl = this.el.classList;
+
+    // Remove all classes.
+    while (cl.length) {
+      cl.remove(cl[0]);
+    }
+
+    // Add classes.
+    cl.add("ducky", this.color, "collection-item");
+
+    // Set text.
+    this.el.innerHTML = `This is a Tier ${this.tier} Duck.
+                         It generates DP at a rate of ${this.rate}.`;
   }
 
   // Drag-n-Drop Handlers
