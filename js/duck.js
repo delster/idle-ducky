@@ -18,6 +18,21 @@ export default class {
     }
   } // constructor
 
+  // Determines the combination cost based on a given tier.
+  static calcCombineCost(t) {
+    // Cost of combining level 1s.
+    const BASE_COST = 10;
+
+    // Scaling: t_1 = 10^(1.01), t_2 = (2*t_1)^(1.02), t_3 = (2*t_2)^(1.03), ...
+    if (t == 1) {
+      // Base case is 1, which returns 10^(1.01)
+      return Math.pow(BASE_COST, 1.01);
+    } else {
+      // Case >1: (2 * LastTierCost)^1+(x/100).
+      return Math.pow(2 * this.calcCombineCost(t - 1), 1 + t / 100);
+    }
+  }
+
   // Set the properties to values based on a given tier.
   setTier(t) {
     // Pseudo-Enum
@@ -38,6 +53,9 @@ export default class {
     // Read Enum for given tier, assign those values to this instance.
     let vals = TIERS[t];
     Object.assign(this, vals);
+
+    // Set the combination cost.
+    this.combineCost = this.constructor.calcCombineCost(t);
 
     // Update the DOM Element of the changes.
     this.updateEl();

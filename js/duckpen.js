@@ -51,7 +51,6 @@ export default class {
 
     // Upgrade drop target.
     this.dropTargetDuck.setTier(++this.dropTargetDuck.tier);
-    console.log(this.dropTargetDuck.tier);
 
     // Delete dragged duck.
     this.ducks.splice(this.ducks.indexOf(this.draggedDuck), 1);
