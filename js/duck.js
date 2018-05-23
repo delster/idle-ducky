@@ -117,7 +117,10 @@ export default class {
   // Fires on: Target
   dragenter(e) {
     // Display an overlay based on whether combining is affordable.
-    this.classList.add( (this.object.duckpen.game.dp >= this.dataset.cost) ? "can-afford" : "cant-afford");
+    let canBuy =
+      this.object.duckpen.game.dp >= this.dataset.cost &&
+      this.object.duckpen.draggedDuck.tier == this.object.tier;
+    this.classList.add(canBuy ? "can-afford" : "cant-afford");
   } // dragenter()
 
   // This fires when a draggable is over a potential drop target.
@@ -166,5 +169,4 @@ export default class {
       this.duckpen.dropTargetDuck = null;
     }
   } // dragend()
-
 } // class

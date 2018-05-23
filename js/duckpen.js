@@ -50,7 +50,7 @@ export default class {
     // Check if they're the same:
     if (this.draggedDuck == this.dropTargetDuck) return;
     // Check if affordable:
-    if ( this.dropTargetDuck.combineCost > this.game.dp ) return;
+    if (this.dropTargetDuck.combineCost > this.game.dp) return;
 
     // We passed basic validation, charge the combination cost.
     this.game.dp -= this.dropTargetDuck.combineCost;
@@ -82,5 +82,4 @@ export default class {
 
     this.tag.appendChild(frag);
   } // updateUI()
-
 } // class

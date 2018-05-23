@@ -49,5 +49,4 @@ export default class {
     // Generate Duck Power from Duck Pen.
     this.dp += this.duckPen.generate();
   } // doGameLoop()
-
 } // class

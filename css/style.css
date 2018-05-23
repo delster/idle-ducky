@@ -1,8 +1,26 @@
-/* Material Design Bugfix */
-.ducky { position: relative }
+/* Globals
+ *****************************************************************************/
 
-/* Drag-n-Drop for Duckies. */
-.ducky.held { opacity: .6 }
+html,
+body {
+  overflow-x: hidden;
+  background-color: #ddd;
+}
+
+/* Material Design Bugfix
+ *****************************************************************************/
+
+.ducky {
+  position: relative
+}
+
+/* Drag-n-Drop for Duckies.
+ *****************************************************************************/
+
+.ducky.held {
+  opacity: .6
+}
+
 .ducky::before {
   /* Center Text */
   display: flex;
@@ -19,13 +37,14 @@
   right: 0;
   background-color: rgba(150, 0, 0);
   transition: .3s all ease-in-out;
-
   opacity: 0;
 }
+
 .ducky.can-afford:not(.held)::before {
   content: "-" attr(data-cost) " DP";
   opacity: 1;
 }
+
 .ducky.cant-afford:not(.held)::before {
   content: 'close';
   font-family: "Material Icons";
