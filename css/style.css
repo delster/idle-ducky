@@ -7,6 +7,19 @@ body {
   background-color: #ddd;
 }
 
+body {
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  min-height: 100vh;
+}
+
+header,
+main,
+footer {
+  flex: 0 1 auto;
+}
+
 /* Material Design Bugfix
  *****************************************************************************/
 
