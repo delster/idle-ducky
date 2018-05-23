@@ -6,6 +6,7 @@ export default class {
     this.dpCounter = document.querySelector(".duckpower__counter");
     this.dpClicker = document.querySelector(".duckpower__button-generate");
     this.duckBuyButton = document.querySelector(".duckpower__button-buyduck");
+    this.duckPenBuyButton = document.querySelector(".duckpower__button-buypen");
 
     // Variables
     this.dp = 0;
@@ -28,6 +29,15 @@ export default class {
       this.buyDuck();
     });
 
+    // Click Event Listener on "Buy Duck Pen" Button.
+    this.duckPenBuyButton.addEventListener("click", () => {
+      // If we can't afford it, do nothing.
+      if (this.dp < this.duckPen.penPrice) return;
+
+      // If we can afford it, do it.
+      this.buyPen();
+    });
+
     // The main loop of the game.
     setInterval(() => {
       this.doGameLoop();
@@ -42,6 +52,13 @@ export default class {
     this.duckPen.addDuck();
   } // buyDuck()
 
+  buyPen() {
+    // Remove the cost of the pen from the current currency.
+    this.dp -= this.duckPen.penPrice;
+    // Let Duck Pen do the work and hide the button.
+    this.duckPen.addPen();
+    this.duckPenBuyButton.classList.add("hide");
+  }
   // The meat of the game, our timer that ticks production, etc.
   doGameLoop() {
     // Update UI.

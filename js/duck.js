@@ -37,17 +37,17 @@ export default class {
   setTier(t) {
     // Pseudo-Enum
     const TIERS = Object.freeze({
-      0: { tier: 0, color: "amber", rate: 0 },
-      1: { tier: 1, color: "cyan", rate: 0.001 },
-      2: { tier: 2, color: "red", rate: 0.0015 },
-      3: { tier: 3, color: "green", rate: 0.00225 },
-      4: { tier: 4, color: "deep-purple", rate: 0.003375 },
-      5: { tier: 5, color: "lime", rate: 0.0050625 },
-      6: { tier: 6, color: "blue", rate: 0.00759375 },
-      7: { tier: 7, color: "light-blue", rate: 0.011390625 },
-      8: { tier: 8, color: "pink", rate: 0.0170859375 },
-      9: { tier: 9, color: "purple", rate: 0.02562890625 },
-      10: { tier: 10, color: "indigo", rate: 0.038443359375 }
+      0: { tier: 0, rate: 0 },
+      1: { tier: 1, rate: 0.001 },
+      2: { tier: 2, rate: 0.0015 },
+      3: { tier: 3, rate: 0.00225 },
+      4: { tier: 4, rate: 0.003375 },
+      5: { tier: 5, rate: 0.0050625 },
+      6: { tier: 6, rate: 0.00759375 },
+      7: { tier: 7, rate: 0.011390625 },
+      8: { tier: 8, rate: 0.0170859375 },
+      9: { tier: 9, rate: 0.02562890625 },
+      10: { tier: 10, rate: 0.038443359375 }
     });
 
     // Read Enum for given tier, assign those values to this instance.
@@ -71,12 +71,24 @@ export default class {
       cl.remove(cl[0]);
     }
 
-    // Add classes.
-    cl.add("ducky", this.color, "collection-item");
+    // Remove all content.
+    this.el.innerHTML = "";
 
-    // Set text.
-    this.el.innerHTML = `This is a Tier ${this.tier} Duck.
-                         It generates DP at a rate of ${this.rate}.`;
+    // Add classes.
+    cl.add("ducky", "collection-item", "avatar");
+
+    // Build Ducky Image.
+    let avatar = document.createElement("img");
+    avatar.src = `img/ducky-tier-${this.tier}.jpg`;
+    avatar.classList.add("circle");
+    this.el.appendChild(avatar);
+
+    // 1000 (1 second) / 10 (interval) = 100
+    let dpps = this.rate * 100;
+    let textHTML = `<p>Tier: ${this.tier}
+                    <br>
+                    ${dpps.toFixed(3)} dp/s</p>`;
+    this.el.innerHTML += textHTML;
 
     // Set Data attribute for pseudo-element (overlay) text.
     this.el.dataset.cost = this.combineCost.toFixed(2);
@@ -84,13 +96,6 @@ export default class {
 
   // Drag-n-Drop Handlers
   initDragDrop() {
-    // General Flow: http://apress.jensimmons.com/v5/pro-html5-programming/images/ch9/fig9-3.jpg
-    // dragstart ->
-    //   dragleave (on dragged) ->
-    //   dragenter (on target) ->
-    //   dragover (on target) ->
-    //   drop ->
-    //   dragend
     this.el.addEventListener("dragstart", this.dragstart);
     this.el.addEventListener("dragend", this.dragend);
     this.el.addEventListener("dragover", this.dragover);
