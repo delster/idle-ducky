@@ -10,11 +10,23 @@ You should just head over to [this Wikipedia article](https://en.wikipedia.org/w
 
 ## Stack
 
-WIP. So far? [Pug](https://pugjs.org/api/getting-started.html) does the HTML templating (HTML is ugly, isn't it?), vanilla CSS3, and vanilla JavaScript. There's some ES6 syntactic sugar and modules. The front-end stuff is [Materialize](https://materializecss.com/).
+* [Pug](https://pugjs.org/api/getting-started.html) for markup
+* CSS3 and [Materialize](https://materializecss.com/) for styling.
+* ES6/vanilla JavaScript for functionality.
 
 ## Installation
 
-This is placeholder text, but I plan to host this somewhere you can just play it. The source code is available here on GitHub, so if you'd like to fork it or contribute, feel free. For now, the index.pug file is compiled to index.html and should run as-is. If you get a CORS error, you'll need to serve the files up through a server as opposed to the filesystem.
+1. Download or clone this repo.
+2. Run a local server (see below).
+3. Open index.html in your browser.
+4. Play!
+
+## Running a Server
+
+1. Install Nodejs if you haven't.
+2. Grab the http-server package through NPM: `npm install http-server`
+3. Fire the server up without caching: `http-server -c-1`
+4. Open `http://localhost:8080/` in your browser.
 
 ## License
 
