@@ -1,5 +1,9 @@
 # Idle Ducky
 
+## Where Can I see a demo of this?
+
+There's a live version at https://idle-ducky.netlify.com/
+
 ## What is Idle Ducky?
 
 Idle ducky is an idle game created for my individual final project for NYCDA's Web Dev Intensive boot camp. It's a twist on generic clickers where the "duck pen" becomes the limiting factor of growth.
